@@ -260,8 +260,8 @@ static int sockaddr_prepare(pa_socket_client *c, const struct sockaddr *sa, size
     if (sa->sa_family == AF_INET)
 #endif
         pa_make_tcp_socket_low_delay(c->fd);
-    else
-        pa_make_socket_low_delay(c->fd);
+    // else
+    //     pa_make_socket_low_delay(c->fd);
 
     if (do_connect(c, sa, (socklen_t) salen) < 0)
         return -1;
