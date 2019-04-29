@@ -160,6 +160,11 @@ pulseaudio_LDADD = $(AM_LDADD) libpulsecore-@PA_MAJORMINOR@.la libpulsecommon-@P
 # This is needed because automake doesn't properly expand the foreach below
 pulseaudio_DEPENDENCIES = libpulsecore-@PA_MAJORMINOR@.la libpulsecommon-@PA_MAJORMINOR@.la libpulse.la $(PREOPEN_LIBS)
 
+if OS_IS_WIN32
+pulseaudio_LDADD += daemon/pulseaudio.res
+pulseaudio_DEPENDENCIES += daemon/pulseaudio.res
+endif
+
 if HAVE_DBUS
 pulseaudio_CFLAGS += $(DBUS_CFLAGS)
 pulseaudio_SOURCES += daemon/server-lookup.c daemon/server-lookup.h
@@ -202,7 +207,7 @@ bin_PROGRAMS += pasuspender
 endif
 
 if HAVE_AF_UNIX
-bin_PROGRAMS += pacmd
+# bin_PROGRAMS += pacmd
 endif
 
 if HAVE_X11
@@ -693,7 +698,6 @@ libpulsecommon_@PA_MAJORMINOR@_la_SOURCES = \
 		pulsecore/hashmap.c pulsecore/hashmap.h \
 		pulsecore/i18n.c pulsecore/i18n.h \
 		pulsecore/idxset.c pulsecore/idxset.h \
-		pulsecore/arpa-inet.c pulsecore/arpa-inet.h \
 		pulsecore/iochannel.c pulsecore/iochannel.h \
 		pulsecore/ioline.c pulsecore/ioline.h \
 		pulsecore/ipacl.c pulsecore/ipacl.h \
@@ -742,7 +746,7 @@ libpulsecommon_@PA_MAJORMINOR@_la_SOURCES = \
 
 if OS_IS_WIN32
 libpulsecommon_@PA_MAJORMINOR@_la_SOURCES += \
-		pulsecore/poll-win32.c pulsecore/poll.h \
+		pulsecore/poll.h \
 		pulsecore/winerrno.h
 else
 libpulsecommon_@PA_MAJORMINOR@_la_SOURCES += pulsecore/poll-posix.c pulsecore/poll.h
@@ -1214,7 +1218,6 @@ modlibexec_LTLIBRARIES += \
 		module-combine-sink.la \
 		module-remap-sink.la \
 		module-remap-source.la \
-		module-ladspa-sink.la \
 		module-tunnel-sink-new.la \
 		module-tunnel-source-new.la \
 		module-tunnel-sink.la \
@@ -2239,6 +2242,9 @@ update-map-file:
 	  echo "};" ) > $(srcdir)/map-file
 
 update-all: update-ffmpeg update-map-file
+
+daemon/pulseaudio.res: daemon/pulseaudio.rc ../pulseaudio-text.ico
+	windres daemon/pulseaudio.rc -O coff -o daemon/pulseaudio.res
 
 # Force installation order of libraries. libtool relinks on install time, in
 # which case libpulsecommon has to be installed before others, but the padsp

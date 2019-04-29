@@ -241,6 +241,10 @@ int pa_unix_socket_is_stale(const char *fn) {
     if (connect(fd, (struct sockaddr*) &sa, sizeof(sa)) < 0) {
         if (errno == ECONNREFUSED)
             ret = 1;
+        #ifdef OS_IS_WIN32
+        if (errno == EEXIST)
+            ret = 1;
+        #endif
     } else
         ret = 0;
 

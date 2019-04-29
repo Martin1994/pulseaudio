@@ -28,6 +28,8 @@ pulseaudio
 pulseaudio.service
 start-pulseaudio-x11
 *-orc-gen.[ch]
+*.exe
+*.res
 # tests
 alsa-mixer-path-test
 alsa-time-test

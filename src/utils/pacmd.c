@@ -23,7 +23,7 @@
 
 #include <assert.h>
 #include <signal.h>
-#include <sys/socket.h>
+#include "../pulsecore/socket.h"
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>

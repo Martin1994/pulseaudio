@@ -319,6 +319,10 @@ int pa__init(pa_module*m) {
         pa_log("Failed to generate socket path.");
         goto fail;
     }
+    if (pa_make_secure_parent_dir(u->socket_path, pa_in_system_mode() ? 0755U : 0700U, (uid_t)-1, (gid_t)-1, false) < 0) {
+        pa_log("Failed to create socket directory '%s': %s\n", u->socket_path, pa_cstrerror(errno));
+        goto fail;
+    }
 #  endif
 
     if ((r = pa_unix_socket_remove_stale(u->socket_path)) < 0) {

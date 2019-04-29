@@ -206,8 +206,16 @@ int pa_pid_file_create(const char *procname) {
         int ours = 1;
 
 #ifdef OS_IS_WIN32
+        bool stillAlive = false;
         if ((process = OpenProcess(PROCESS_QUERY_INFORMATION, false, pid)) != NULL) {
+            DWORD lpExitCode = 0;
+            GetExitCodeProcess(process, &lpExitCode);
+            if (lpExitCode == STILL_ACTIVE) {
+                stillAlive = true;
+            }
             CloseHandle(process);
+        }
+        if (stillAlive) {
 #else
         if (kill(pid, 0) >= 0 || errno != ESRCH) {
 #endif

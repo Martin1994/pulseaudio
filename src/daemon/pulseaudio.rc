@@ -1,0 +1,23 @@
+1 VERSIONINFO
+FILEVERSION     12,2,0,0
+PRODUCTVERSION  12,2,0,0
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "040904E4"
+    BEGIN
+      VALUE "FileDescription", "PulseAudio Server"
+      VALUE "FileVersion", "12.2"
+      VALUE "InternalName", "pulseaudio"
+      VALUE "OriginalFilename", "pulseaudio.exe"
+      VALUE "ProductName", "The PulseAudio Sound System"
+      VALUE "ProductVersion", "12.2"
+    END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x409, 1252
+  END
+END
+
+2 ICON "../pulseaudio-text.ico"

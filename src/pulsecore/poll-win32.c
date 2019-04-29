@@ -348,7 +348,7 @@ compute_revents (int fd, int sought, fd_set *rfds, fd_set *wfds, fd_set *efds)
 #endif /* !MinGW */
 
 int
-pa_poll (struct pollfd *pfd, nfds_t nfd, int timeout)
+pa_poll (struct pollfd *pfd, unsigned long nfd, int timeout)
 {
   struct timeval tv;
 

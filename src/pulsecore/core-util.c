@@ -462,7 +462,9 @@ ssize_t pa_write(int fd, const void *buf, size_t count, int *type) {
 
 #ifdef OS_IS_WIN32
         if (WSAGetLastError() != WSAENOTSOCK) {
-            errno = WSAGetLastError();
+            if (WSAGetLastError() == WSAEWOULDBLOCK) {
+                errno = EAGAIN;
+            }
             return r;
         }
 #else
